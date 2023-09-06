@@ -5,3 +5,4 @@ export const dateFormatter = (date: string) => {
 	};
 	return new Intl.DateTimeFormat(userLocale, options).format(new Date(date));
 };
+export const categories = ["business", "entertainment", "technology", "health", "sports"];

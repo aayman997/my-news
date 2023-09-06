@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { HiUserCircle } from "react-icons/hi2";
+import { categories } from "../../utils/helpers.ts";
 
 function Logo() {
 	return (
@@ -10,7 +11,6 @@ function Logo() {
 	);
 }
 
-const categories = ["business", "entertainment", "technology", "health", "sports"];
 const AppNav = () => {
 	return (
 		<nav className="fixed left-0 right-0 top-0 border-b border-yellow-50 bg-teal-500 py-3 shadow-2xl">
