@@ -1,5 +1,5 @@
 export class Article {
-	id: number;
+	id: string;
 	title: string;
 	abstract: string;
 	date: string;
@@ -8,16 +8,7 @@ export class Article {
 	author: string;
 	source: string;
 
-	constructor(
-		id: number,
-		title: string,
-		abstract: string,
-		date: string,
-		url: string,
-		author: string,
-		source: string,
-		image: string = "https://placehold.co/600x400",
-	) {
+	constructor(id: string, title: string, abstract: string, date: string, url: string, author: string, source: string, image?: undefined | string) {
 		this.id = id;
 		this.title = title;
 		this.abstract = abstract;
@@ -25,6 +16,10 @@ export class Article {
 		this.url = url;
 		this.author = author;
 		this.source = source;
-		this.image = image;
+		if (image) {
+			this.image = image;
+		} else {
+			this.image = "https://placehold.co/600x400";
+		}
 	}
 }

@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./ui/layout/AppLayout.tsx";
-import Error from "./ui/Error.tsx";
-import Home from "./ui/Home.tsx";
+import Error from "./pages/Error.tsx";
+import Home from "./pages/Home.tsx";
 import Explore from "./features/articles/Explore.tsx";
 import Register from "./features/user/Register.tsx";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";

@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import apiArticlesByKeyword from "../../services/apiArticlesByKeyword.ts";
+import apiNewsAPI from "../../services/apiNewsAPI.ts";
 
 export const useSearchArticles = (query: string) => {
 	const { isLoading, data, error } = useQuery({
 		queryKey: ["searchedArticles", query],
-		queryFn: () => apiArticlesByKeyword(query),
+		queryFn: () => apiNewsAPI(query),
 		retry: false,
 	});
 

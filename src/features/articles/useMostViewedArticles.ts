@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import getMostViewedArticles from "../../services/apiArticles.ts";
+import getMostViewedArticles from "../../services/apiNewYorkTimes.ts";
 
 export const useMostViewedArticles = () => {
 	const {
@@ -8,7 +8,7 @@ export const useMostViewedArticles = () => {
 		error,
 	} = useQuery({
 		queryKey: ["mostViewedArticles"],
-		queryFn: getMostViewedArticles,
+		queryFn: () => getMostViewedArticles(true),
 		retry: false,
 	});
 
