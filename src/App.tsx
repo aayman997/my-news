@@ -5,6 +5,7 @@ import Home from "./pages/Home.tsx";
 import Explore from "./features/articles/Explore.tsx";
 import Register from "./features/user/Register.tsx";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import Search from "./pages/Search.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
 		children: [
 			{ path: "/", element: <Home /> },
 			{ path: "/register", element: <Register /> },
+			{ path: "/search", element: <Search /> },
 			{
 				path: "/explore",
 				element: <Explore />,

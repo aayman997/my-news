@@ -4,7 +4,7 @@ import newYorkTimesMostViewedDTO from "../dto/newYorkTimesMostViewedDTO.ts";
 const apiNewYorkTimes = async (
 	mostViewed: boolean = false,
 	query?: string,
-	page: number = 0,
+	page: string = "1",
 	sort: string = "newest",
 	beginDate?: string,
 	endDate?: string,
@@ -15,7 +15,7 @@ const apiNewYorkTimes = async (
 	const API_KEY = import.meta.env.VITE_NYTIMES_API_KEY;
 	const params: Record<string, string> = {
 		"api-key": API_KEY,
-		page: page.toString(),
+		page: (+page - 1).toString(),
 		sort,
 		...(beginDate && { begin_date: beginDate }),
 		...(endDate && { end_date: endDate }),

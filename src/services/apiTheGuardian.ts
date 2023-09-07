@@ -1,6 +1,6 @@
 import theGuardianDTO from "../dto/theGuardianDTO.ts";
 
-const apiTheGuardian = async (query?: string, page: number = 1, resultsPerPage: number = 15, orderBy: string = "newest", orderDate: string = "published") => {
+const apiTheGuardian = async (query?: string, page: string = "1", resultsPerPage: number = 15, orderBy: string = "newest", orderDate: string = "published") => {
 	if (query && orderBy === "newest") {
 		orderBy = "relevance";
 	}
@@ -9,7 +9,7 @@ const apiTheGuardian = async (query?: string, page: number = 1, resultsPerPage: 
 	const params: Record<string, string> = {
 		"api-key": API_KEY,
 		"show-fields": "body,byline,thumbnail",
-		page: page.toString(),
+		page: page,
 		"page-size": resultsPerPage.toString(),
 		"order-by": orderBy,
 		"order-date": orderDate,

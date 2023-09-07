@@ -1,4 +1,4 @@
-import { categories, sources, authors } from "../../utils/helpers.ts";
+import { authors, categories, sources } from "../../utils/helpers.ts";
 import React, { useState, Dispatch, SetStateAction } from "react";
 
 interface FeedFormProps {
@@ -10,6 +10,7 @@ type FormError = Record<string, string>;
 const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 	// const navigate = useNavigate();
 	const [error, setError] = useState<FormError>({});
+	const [authorsDisabled, setAuthorsDisabled] = useState(false);
 	const [userPreferences] = useState(() => {
 		const data = localStorage.getItem("userPreferences");
 		return data ? JSON.parse(data) : {};
@@ -49,7 +50,7 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 						type="text"
 						id="name"
 						name="name"
-						defaultValue={userPreferences.username}
+						defaultValue={userPreferences?.username}
 						placeholder="type your name"
 						className="h-[35px] w-full rounded border border-teal-300 px-2 focus:border-2 focus:border-teal-500 focus:outline-none"
 						onChange={(e) =>
@@ -66,11 +67,13 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 					</label>
 					<select
 						name="source"
+						id="sources"
 						className="h-[35px] rounded border border-teal-300 px-2 leading-none focus:border-2 focus:border-teal-500 focus:outline-none"
 						defaultValue={userPreferences?.data?.source}
+						onChange={(e) => (e.target.value !== "News API" ? setAuthorsDisabled(() => true) : setAuthorsDisabled(() => false))}
 					>
 						{sources.map((source) => (
-							<option value={source} key={source} id="sources">
+							<option value={source} key={source}>
 								{source}
 							</option>
 						))}
@@ -82,7 +85,7 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 						<div key={category} className="flex flex-row items-center justify-between gap-2">
 							<label htmlFor={category}>{category}</label>
 							<input
-								defaultChecked={Boolean(userPreferences.data.categories.find((stgCategory: string) => stgCategory === category))}
+								defaultChecked={Boolean(userPreferences?.data?.categories?.find((stgCategory: string) => stgCategory === category))}
 								type="checkbox"
 								id={category}
 								name="categories"
@@ -92,22 +95,29 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 						</div>
 					))}
 				</div>
-				<div>
-					<p className="mb-2 text-center uppercase text-zinc-500">preferred authors</p>
-					{authors.map((author) => (
-						<div key={author} className="flex flex-row items-center justify-between gap-2">
-							<label htmlFor={author}>{author}</label>
-							<input
-								defaultChecked={Boolean(userPreferences.data.authors.find((stgAuthor: string) => stgAuthor === author))}
-								type="checkbox"
-								id={author}
-								name="authors"
-								value={author}
-								className="border-teal-300 bg-teal-100 text-teal-500 focus:ring-teal-200"
-							/>
-						</div>
-					))}
-				</div>
+				{!authorsDisabled && (
+					<div>
+						<p className="mb-2 text-center uppercase text-zinc-500">preferred authors</p>
+						{authors.map((author) => (
+							<div key={author} className="flex flex-row items-center justify-between gap-2">
+								<label htmlFor={author}>{author}</label>
+								<input
+									disabled={authorsDisabled}
+									defaultChecked={
+										!userPreferences?.data?.authors?.length
+											? true
+											: Boolean(userPreferences?.data?.authors?.find((stgAuthor: string) => stgAuthor === author))
+									}
+									type="checkbox"
+									id={author}
+									name="authors"
+									value={author}
+									className="border-teal-300 bg-teal-100 text-teal-500 focus:ring-teal-200 disabled:bg-teal-50 hover:disabled:bg-teal-50"
+								/>
+							</div>
+						))}
+					</div>
+				)}
 				<div className="text-right">
 					<button className="rounded border border-teal-500 px-5 py-2 font-medium leading-none text-teal-500">Save</button>
 				</div>

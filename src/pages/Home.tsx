@@ -9,6 +9,7 @@ import ArticleType from "../types/Article.ts";
 import apiTheGuardian from "../services/apiTheGuardian.ts";
 import apiNewYorkTimes from "../services/apiNewYorkTimes.ts";
 import { Article } from "../interfaces/Article.ts";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 const Home = () => {
 	const { articles: mostViewedArticles, error: errorLoadingMostViewed, isLoading: isLoadingMostViewed } = useMostViewedArticles();
@@ -20,6 +21,19 @@ const Home = () => {
 		const data = localStorage.getItem("userPreferences");
 		return data ? JSON.parse(data) : {};
 	});
+	const [preferredSource] = useState(() => {
+		return userPref.data.source;
+	});
+	const [authors] = useState(() => {
+		return userPref.data.authors.join(",");
+	});
+	const [query] = useState(() => {
+		return userPref.data.categories.join(" OR ");
+	});
+	const [params] = useSearchParams();
+	const navigate = useNavigate();
+	const page = params.get("page") || "1";
+	console.log("params", page);
 
 	useEffect(() => {
 		setUserPref(() => {
@@ -30,28 +44,26 @@ const Home = () => {
 
 	useEffect(() => {
 		if (Object.entries(userPref).length) {
-			const preferredSource = userPref.data.source;
-			console.log("preferredSource", preferredSource);
+			console.log("setQuery", query);
 			setIsLoadingMyFeed(true);
-			const query = userPref.data.categories.join(" OR ");
 			if (preferredSource === "The Guardian") {
-				apiTheGuardian()
+				apiTheGuardian(query, page)
 					.then((res) => setMyArticles(res.articles))
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
 			} else if (preferredSource === "New York Times") {
-				apiNewYorkTimes()
+				apiNewYorkTimes(false, query, page)
 					.then((res) => setMyArticles(res.articles))
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
 			} else {
-				apiNewsAPI(query)
+				apiNewsAPI(query, page, undefined, authors)
 					.then((res) => setMyArticles(res.articles))
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
 			}
 		}
-	}, [userPref]);
+	}, [authors, page, preferredSource, query, userPref]);
 
 	if (isLoadingMostViewed || isLoadingMyFeed) {
 		return <Loader />;
@@ -77,6 +89,22 @@ const Home = () => {
 					<>
 						<h2 className="mb-4 text-xl font-medium capitalize text-teal-500">👋 Welcome back, {userPref.username}</h2>
 						<ArticlesList articles={myArticles} small={false} />
+						<div className="my-8 text-right">
+							<button
+								className="rounded bg-teal-500 px-5 py-2 font-medium capitalize text-white transition-all duration-300 hover:bg-teal-700"
+								onClick={() => {
+									const data = {
+										...(preferredSource && { preferredSource }),
+										...(authors && { authors }),
+										...(query && { query }),
+									};
+									const params = new URLSearchParams(data);
+									navigate(`/search?${params}`);
+								}}
+							>
+								show more articles
+							</button>
+						</div>
 					</>
 				)}
 				{!userPref.username && !errorLoadingMyFeed && <p>start customizing your feed</p>}
