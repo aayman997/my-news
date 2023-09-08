@@ -31,10 +31,10 @@ const apiTheGuardian = async (query?: string, page?: string, orderBy?: string, o
 	return {
 		articles: theGuardianDTO(data.response.results),
 		pagination: {
-			currentPage: data.response.currentPage,
-			pageSize: data.response.pageSize,
-			totalPages: data.response.pages,
-			totalResults: data.response.total,
+			currentPage: Number(data.response.currentPage),
+			pageSize: Number(data.response.pageSize),
+			totalPages: Number(data.response.pages),
+			totalResults: Number(data.response.total),
 		},
 		orderBy: data.response.orderBy,
 	};

@@ -38,7 +38,7 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 	};
 
 	return (
-		<div className="px-8">
+		<div className="w-[400px] px-8">
 			<h1 className="pb-10 text-lg font-medium text-teal-600">my feed preferences</h1>
 			<form onSubmit={handler} className="flex flex-col gap-6" id="userPreferencesForm">
 				<div className="flex flex-col items-start justify-between gap-2">
@@ -60,14 +60,14 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 					/>
 					{error?.username && <span className="text-xs text-red-500">{error?.username}</span>}
 				</div>
-				<div className="flex items-center justify-center gap-3">
+				<div className="flex items-center justify-between gap-3">
 					<label className="text-center uppercase text-zinc-500" htmlFor="source">
 						preferred source
 					</label>
 					<select
 						name="source"
 						id="sources"
-						className="h-[35px] rounded border border-teal-300 px-2 leading-none focus:border-2 focus:border-teal-500 focus:outline-none"
+						className="h-[35px] w-[160px] rounded border border-teal-300 px-2 leading-none focus:border-2 focus:border-teal-500 focus:outline-none"
 						defaultValue={userPreferences?.data?.source}
 						onChange={(e) => (e.target.value !== "News API" ? setAuthorsDisabled(() => true) : setAuthorsDisabled(() => false))}
 					>

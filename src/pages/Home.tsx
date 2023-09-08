@@ -38,7 +38,6 @@ const Home = () => {
 	const [params] = useSearchParams();
 	const navigate = useNavigate();
 	const page = params.get("page") ?? "1";
-	console.log("params", page);
 
 	useEffect(() => {
 		setUserPref(() => {
@@ -49,7 +48,6 @@ const Home = () => {
 
 	useEffect(() => {
 		if (Object.entries(userPref).length) {
-			console.log("setQuery", query);
 			setIsLoadingMyFeed(true);
 			if (preferredSource === "The Guardian") {
 				apiTheGuardian(query, page)
@@ -99,7 +97,6 @@ const Home = () => {
 								className="rounded bg-teal-500 px-5 py-2 font-medium capitalize text-white transition-all duration-300 hover:bg-teal-700"
 								onClick={() => {
 									const data = {
-										...(preferredSource && { preferredSource }),
 										...(authors && { authors }),
 										...(query && { query }),
 									};

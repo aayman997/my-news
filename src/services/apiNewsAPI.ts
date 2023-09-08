@@ -8,8 +8,19 @@ interface ApiNewsAPIData {
 	articles: ArticleType[];
 }
 
-const apiNewsAPI = async (query: string, page?: string, sortBy?: string, sources?: string, from?: string, to?: string): Promise<ArticlesResType> => {
+const apiNewsAPI = async (
+	query: string,
+	page?: string,
+	sortBy?: string,
+	category?: string,
+	sources?: string,
+	from?: string,
+	to?: string,
+): Promise<ArticlesResType> => {
 	const PAGE_SIZE = 10;
+	/* As this is a free API, it allows access to the first 100 articles only to I set this values */
+	const LAST_AVAILABLE_PAGES = 10;
+	const MAX_TOTAL_PAGES = PAGE_SIZE * LAST_AVAILABLE_PAGES;
 	const BASE_URL = import.meta.env.VITE_NEWSAPI_URL;
 	const API_KEY = import.meta.env.VITE_NEWSAPI_API_KEY;
 	const params: Record<string, string> = {
@@ -19,6 +30,7 @@ const apiNewsAPI = async (query: string, page?: string, sortBy?: string, sources
 		...(page && { page }),
 		...(sortBy && { sortBy }),
 		...(sources && { sources }),
+		...(category && { category }),
 		...(from && { from }),
 		...(to && { to }),
 	};
@@ -33,10 +45,10 @@ const apiNewsAPI = async (query: string, page?: string, sortBy?: string, sources
 	return {
 		articles: newsAPIDTO(data.articles),
 		pagination: {
-			currentPage: page ?? "1",
+			currentPage: Number(page ?? 1),
 			pageSize: PAGE_SIZE,
-			totalPages: Math.ceil(data.totalResults / PAGE_SIZE),
-			totalResults: data.totalResults,
+			totalPages: LAST_AVAILABLE_PAGES,
+			totalResults: MAX_TOTAL_PAGES,
 		},
 	};
 };

@@ -45,8 +45,8 @@ const apiNewYorkTimes = async (
 	return {
 		articles: newYorkTimesDTO(data.response.docs),
 		pagination: {
-			currentPage: data.response.meta.offset,
-			totalResults: data.response.meta.hits,
+			currentPage: Number(data.response.meta.offset),
+			totalResults: Number(data.response.meta.hits),
 			pageSize: PAGE_SIZE,
 			totalPages: Math.ceil(data.response.meta.hits / PAGE_SIZE),
 		},
