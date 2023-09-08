@@ -2,7 +2,7 @@ import { dateFormatter } from "../../utils/helpers.ts";
 import ArticleType from "../../types/Article.ts";
 
 interface ArticleProps {
-	article: ArticleType;
+	article: Partial<ArticleType>;
 	small?: boolean;
 }
 

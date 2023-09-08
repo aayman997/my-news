@@ -13,7 +13,7 @@ function Logo() {
 
 const AppNav = () => {
 	return (
-		<nav className="fixed left-0 right-0 top-0 border-b border-yellow-50 bg-teal-500 py-3 shadow-2xl">
+		<nav className="fixed left-0 right-0 top-0 z-10 border-b border-yellow-50 bg-teal-500 py-3 shadow-2xl">
 			<div className="container mx-auto flex items-center gap-8">
 				<Link to="/">
 					<Logo />

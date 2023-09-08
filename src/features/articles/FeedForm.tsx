@@ -8,7 +8,6 @@ interface FeedFormProps {
 
 type FormError = Record<string, string>;
 const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
-	// const navigate = useNavigate();
 	const [error, setError] = useState<FormError>({});
 	const [authorsDisabled, setAuthorsDisabled] = useState(false);
 	const [userPreferences] = useState(() => {

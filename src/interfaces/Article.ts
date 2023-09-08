@@ -1,4 +1,6 @@
-export class Article {
+import ArticleType from "../types/Article.ts";
+
+export class Article implements Partial<ArticleType> {
 	id: string;
 	title: string;
 	abstract: string;

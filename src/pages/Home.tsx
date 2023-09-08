@@ -8,12 +8,17 @@ import apiNewsAPI from "../services/apiNewsAPI.ts";
 import ArticleType from "../types/Article.ts";
 import apiTheGuardian from "../services/apiTheGuardian.ts";
 import apiNewYorkTimes from "../services/apiNewYorkTimes.ts";
-import { Article } from "../interfaces/Article.ts";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import PaginationType from "../types/Pagination.ts";
+
+interface ArticlesType {
+	articles: Partial<ArticleType>[];
+	pagination: PaginationType;
+}
 
 const Home = () => {
 	const { articles: mostViewedArticles, error: errorLoadingMostViewed, isLoading: isLoadingMostViewed } = useMostViewedArticles();
-	const [myArticles, setMyArticles] = useState<ArticleType[] | Article[]>([]);
+	const [myArticles, setMyArticles] = useState<ArticlesType>({} as ArticlesType);
 	const [isLoadingMyFeed, setIsLoadingMyFeed] = useState<boolean>(false);
 	const [errorLoadingMyFeed, setErrorLoadingMyFeed] = useState<boolean>(false);
 	const [isLocaleStorageUpdated, setIsLocaleStorageUpdated] = useState(false);
@@ -32,7 +37,7 @@ const Home = () => {
 	});
 	const [params] = useSearchParams();
 	const navigate = useNavigate();
-	const page = params.get("page") || "1";
+	const page = params.get("page") ?? "1";
 	console.log("params", page);
 
 	useEffect(() => {
@@ -48,17 +53,17 @@ const Home = () => {
 			setIsLoadingMyFeed(true);
 			if (preferredSource === "The Guardian") {
 				apiTheGuardian(query, page)
-					.then((res) => setMyArticles(res.articles))
+					.then((res) => setMyArticles(res))
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
 			} else if (preferredSource === "New York Times") {
 				apiNewYorkTimes(false, query, page)
-					.then((res) => setMyArticles(res.articles))
+					.then((res) => setMyArticles(res as ArticlesType))
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
 			} else {
 				apiNewsAPI(query, page, undefined, authors)
-					.then((res) => setMyArticles(res.articles))
+					.then((res) => setMyArticles(res))
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
 			}
@@ -88,7 +93,7 @@ const Home = () => {
 				{userPref.username && !errorLoadingMyFeed && (
 					<>
 						<h2 className="mb-4 text-xl font-medium capitalize text-teal-500">👋 Welcome back, {userPref.username}</h2>
-						<ArticlesList articles={myArticles} small={false} />
+						<ArticlesList articles={myArticles.articles} pagination={myArticles.pagination} small={false} />
 						<div className="my-8 text-right">
 							<button
 								className="rounded bg-teal-500 px-5 py-2 font-medium capitalize text-white transition-all duration-300 hover:bg-teal-700"
@@ -112,7 +117,7 @@ const Home = () => {
 			</div>
 			<aside className="basis-1/4">
 				<h3 className="mb-4 text-xl font-bold capitalize text-teal-500">most viewed articles</h3>
-				{!errorLoadingMostViewed && <ArticlesList articles={mostViewedArticles?.articles} small />}
+				{!errorLoadingMostViewed && <ArticlesList articles={mostViewedArticles?.articles ?? []} small />}
 				{Boolean(errorLoadingMostViewed) && <p>Erro happened while loading data 🥲</p>}
 			</aside>
 		</div>

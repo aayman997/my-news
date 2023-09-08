@@ -1,4 +1,7 @@
-export const dateFormatter = (date: string) => {
+export const dateFormatter = (date?: string) => {
+	if (!date) {
+		return;
+	}
 	const userLocale = navigator.language;
 	const options: Intl.DateTimeFormatOptions = {
 		dateStyle: "medium",

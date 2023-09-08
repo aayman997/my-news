@@ -1,25 +1,30 @@
 import newYorkTimesDTO from "../dto/newYorkTimesDTO.ts";
 import newYorkTimesMostViewedDTO from "../dto/newYorkTimesMostViewedDTO.ts";
+import ArticlesResType from "../types/ArticlesRes.ts";
+
+interface ArticlesRes extends Partial<ArticlesResType> {
+	orderBy?: string;
+}
 
 const apiNewYorkTimes = async (
 	mostViewed: boolean = false,
 	query?: string,
-	page: string = "1",
-	sort: string = "newest",
+	page?: string,
+	sort?: string,
 	beginDate?: string,
 	endDate?: string,
-) => {
+): Promise<ArticlesRes> => {
 	let url;
 	const PAGE_SIZE = 10;
 	const BASE_URL = import.meta.env.VITE_NYTIMES_URL;
 	const API_KEY = import.meta.env.VITE_NYTIMES_API_KEY;
 	const params: Record<string, string> = {
 		"api-key": API_KEY,
-		page: (+page - 1).toString(),
-		sort,
 		...(beginDate && { begin_date: beginDate }),
 		...(endDate && { end_date: endDate }),
 		...(query && { q: query }),
+		...(page && { page: (+page - 1).toString() }),
+		...(sort && { sort }),
 	};
 	const searchParams = new URLSearchParams(params);
 	if (mostViewed) {
