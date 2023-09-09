@@ -2,15 +2,7 @@ import { Link } from "react-router-dom";
 import { HiUserCircle } from "react-icons/hi2";
 import { categories } from "../../utils/helpers.ts";
 import SearchInput from "../SearchInput.tsx";
-
-function Logo() {
-	return (
-		<div>
-			<span className="text-xl">🗞️</span>
-			<span className="ml-2 inline-block text-2xl font-bold text-gray-200">My News</span>
-		</div>
-	);
-}
+import Logo from "../Logo.tsx";
 
 const AppNav = () => {
 	return (
