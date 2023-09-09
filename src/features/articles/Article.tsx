@@ -11,7 +11,7 @@ const Article = ({ article, small }: ArticleProps) => {
 	return (
 		<article
 			className={`border-gray-200-100 flex flex-nowrap gap-5 overflow-hidden rounded-md border bg-stone-100 shadow-sm transition-all duration-300 hover:shadow-xl 
-			${small ? "flex-col" : "flex-row"}`}
+			${small ? "max-w-[360px] shrink-0 grow basis-[330px] flex-col" : "flex-row"}`}
 			id={`article${id}`}
 		>
 			<div className="aspect-video h-[170px] shrink-0 grow-0">

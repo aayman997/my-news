@@ -57,7 +57,7 @@ const Search = () => {
 		const page = searchParams.get("page") ?? "1";
 		const categoriesString = categories.join(",");
 		const authorsString = authors.join(",");
-		apiNewsAPI(query, page, sortBy, categoriesString, authorsString, startDate, endDate)
+		apiNewsAPI(query, page, sortBy, authorsString, startDate, endDate, categoriesString)
 			.then((res) => setArticles(res))
 			.catch(() => setErrorLoadingArticles(true))
 			.finally(() => {

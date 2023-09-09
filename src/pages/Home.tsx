@@ -35,15 +35,7 @@ const Home = () => {
 		const data = localStorage.getItem("userPreferences");
 		return data ? JSON.parse(data) : ({} as UserPrefType);
 	});
-	// const [preferredSource] = useState(() => {
-	// 	return userPref?.data?.source ?? "";
-	// });
-	// const [authors] = useState(() => {
-	// 	return userPref?.data?.authors?.join?.(",") ?? "";
-	// });
-	// const [query] = useState(() => {
-	// 	return userPref?.data?.categories?.join?.(" OR ") ?? "";
-	// });
+
 	const [params] = useSearchParams();
 	const navigate = useNavigate();
 	const page = params.get("page") ?? "1";
@@ -72,7 +64,7 @@ const Home = () => {
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
 			} else {
-				apiNewsAPI(query, page, undefined, undefined, authors)
+				apiNewsAPI(query, page, undefined, authors)
 					.then((res) => setMyArticles(res))
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));

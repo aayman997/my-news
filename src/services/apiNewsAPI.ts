@@ -21,13 +21,13 @@ const apiNewsAPI = async (
 	query?: string,
 	page?: string,
 	sortBy?: string,
-	category?: string,
+	// category?: string,
 	sources?: string,
 	from?: string,
 	to?: string,
+	category?: string,
 ): Promise<ArticlesResType> => {
-	console.log("apiNewsAPI categories", category);
-	console.log("apiNewsAPI sources", sources);
+	let url;
 	const PAGE_SIZE = 10;
 	/* As this is a free API, it allows access to the first 100 articles only to I set this values */
 	const LAST_AVAILABLE_PAGES = 10;
@@ -45,9 +45,16 @@ const apiNewsAPI = async (
 		...(from && { from }),
 		...(to && { to }),
 	};
-	const searchParams = new URLSearchParams(params);
-	const url = BASE_URL + "everything?" + searchParams;
 
+	if (category) {
+		url = BASE_URL + "top-headlines?";
+	} else {
+		url = BASE_URL + "everything?";
+		delete params.category;
+	}
+
+	const searchParams = new URLSearchParams(params);
+	url = url + searchParams;
 	const res = await fetch(url);
 	const data: ApiResponse = await res.json();
 	if (!res.ok) {

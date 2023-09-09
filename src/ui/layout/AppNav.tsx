@@ -17,7 +17,7 @@ const AppNav = () => {
 					</li>
 					{categories.slice(0, 3).map((category) => (
 						<li key={category}>
-							<Link to={`/explore?category=${category}`}>{category}</Link>
+							<Link to={`/explore/${category}`}>{category}</Link>
 						</li>
 					))}
 				</ul>

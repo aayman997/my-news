@@ -13,7 +13,7 @@ interface ArticlesListProps {
 const ArticlesList = ({ articles, pagination, small = false, withPagination = true }: ArticlesListProps) => {
 	return (
 		<>
-			<div className="flex flex-col flex-wrap gap-[30px]">
+			<div className={`flex flex-wrap gap-[30px] ${small ? "flex-row flex-wrap" : "flex-col"}`}>
 				{articles?.length === 0 && <p>No articles for your current search/feed</p>}
 				{articles?.length > 0 && articles?.map((article) => <Article key={article.title} article={article} small={small} />)}
 			</div>

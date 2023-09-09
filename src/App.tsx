@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./ui/layout/AppLayout.tsx";
 import ErrorPage from "./pages/Error.tsx";
 import Home from "./pages/Home.tsx";
-import Explore from "./features/articles/Explore.tsx";
+import Explore, { loader as categoryLoader } from "./features/articles/Explore.tsx";
 import Register from "./features/user/Register.tsx";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Search from "./pages/Search.tsx";
@@ -15,7 +15,11 @@ const router = createBrowserRouter([
 			{ path: "/", element: <Home /> },
 			{ path: "/register", element: <Register /> },
 			{ path: "/search", element: <Search /> },
-			{ path: "/explore", element: <Explore /> },
+			{
+				path: "/explore/:category",
+				element: <Explore />,
+				loader: categoryLoader,
+			},
 		],
 	},
 ]);

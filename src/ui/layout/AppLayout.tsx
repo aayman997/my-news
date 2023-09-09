@@ -10,7 +10,7 @@ const AppLayout = () => {
 		<div className="flex h-screen flex-col">
 			{isLoading && <Loader />}
 			<AppNav />
-			<main className="container mx-auto mb-[45px] mt-[90px]">
+			<main className="container mx-auto mb-[45px] mt-[90px] grow">
 				<Outlet />
 			</main>
 			<AppFooter />
