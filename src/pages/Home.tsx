@@ -75,7 +75,6 @@ const Home = () => {
 	if (isLoadingMostViewed || isLoadingMyFeed) {
 		return <Loader />;
 	}
-	console.log("articles", myArticles.pagination);
 
 	return (
 		<div className="my-10 flex flex-nowrap gap-16">

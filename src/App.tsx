@@ -6,20 +6,33 @@ import Explore, { loader as categoryLoader } from "./features/articles/Explore.t
 import Register from "./features/user/Register.tsx";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Search from "./pages/Search.tsx";
+import NotFoundPage from "./ui/NotFoundPage.tsx";
+import ProtectedRoute from "./ui/ProtectedRoute.tsx";
+import AuthProvider from "./context/AuthContext.tsx";
 
 const router = createBrowserRouter([
 	{
+		path: "/",
 		element: <AppLayout />,
 		errorElement: <ErrorPage />,
 		children: [
-			{ path: "/", element: <Home /> },
-			{ path: "/register", element: <Register /> },
-			{ path: "/search", element: <Search /> },
 			{
-				path: "/explore/:category",
-				element: <Explore />,
-				loader: categoryLoader,
+				path: "/register",
+				element: <Register />,
 			},
+			{
+				element: <ProtectedRoute />,
+				children: [
+					{ path: "/", element: <Home /> },
+					{ path: "/search", element: <Search /> },
+					{
+						path: "/explore/:category",
+						element: <Explore />,
+						loader: categoryLoader,
+					},
+				],
+			},
+			{ path: "*", element: <NotFoundPage /> },
 		],
 	},
 ]);
@@ -33,9 +46,11 @@ const queryCLient: QueryClient = new QueryClient({
 
 function App() {
 	return (
-		<QueryClientProvider client={queryCLient}>
-			<RouterProvider router={router} />
-		</QueryClientProvider>
+		<AuthProvider>
+			<QueryClientProvider client={queryCLient}>
+				<RouterProvider router={router} />
+			</QueryClientProvider>
+		</AuthProvider>
 	);
 }
 

@@ -3,8 +3,10 @@ import { HiUserCircle } from "react-icons/hi2";
 import { categories } from "../../utils/helpers.ts";
 import SearchInput from "../SearchInput.tsx";
 import Logo from "../Logo.tsx";
+import { useAuth } from "../../context/AuthContext.tsx";
 
 const AppNav = () => {
+	const { user } = useAuth();
 	return (
 		<nav className="fixed left-0 right-0 top-0 z-10 border-b border-yellow-50 bg-teal-500 py-3 shadow-2xl">
 			<div className="container mx-auto flex items-center gap-8">
@@ -21,14 +23,23 @@ const AppNav = () => {
 						</li>
 					))}
 				</ul>
-				<Link to="/register" className="text-xl text-white">
-					<div className="flex items-center gap-2 rounded-md border-2 px-2 py-1 text-sm font-medium">
+				{Object.entries(user).length === 0 ? (
+					<Link to="/register" className="text-xl text-white">
+						<div className="flex items-center gap-2 rounded-md border-2 px-2 py-1 text-sm font-medium">
+							<span className="text-xl">
+								<HiUserCircle />
+							</span>
+							<span>join now</span>
+						</div>
+					</Link>
+				) : (
+					<div className="flex items-center gap-2 rounded-md border-2 px-2 py-1 text-sm font-medium text-white">
 						<span className="text-xl">
 							<HiUserCircle />
 						</span>
-						<span>join now</span>
+						<span>Hello {user.user.username}</span>
 					</div>
-				</Link>
+				)}
 			</div>
 		</nav>
 	);

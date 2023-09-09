@@ -3,9 +3,6 @@ import { useRouteError, useNavigate } from "react-router-dom";
 const ErrorPage = () => {
 	const error = useRouteError() as Error;
 	const navigate = useNavigate();
-	console.log("________________________________________________");
-	console.log("error", error);
-	console.log("________________________________________________");
 	return (
 		<div>
 			<h1>Something went wrong 😢</h1>

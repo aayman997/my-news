@@ -1,4 +1,4 @@
-import { useLoaderData, useLocation } from "react-router-dom";
+import { useLoaderData, useLocation, LoaderFunction } from "react-router-dom";
 import apiNewsAPI from "../../services/apiNewsAPI.ts";
 import ArticlesList from "./ArticlesList.tsx";
 import ArticlesResType from "../../types/ArticlesRes.ts";
@@ -21,13 +21,7 @@ const Explore = () => {
 	);
 };
 
-interface LoaderParamsType {
-	params: {
-		category: string;
-	};
-}
-
-export const loader = async ({ params }: LoaderParamsType): Promise<ArticlesResType> => {
+export const loader: LoaderFunction = async ({ params }): Promise<ArticlesResType> => {
 	return await apiNewsAPI(undefined, undefined, undefined, undefined, undefined, undefined, params.category);
 };
 export default Explore;
