@@ -18,7 +18,7 @@ interface ApiNewsAPIError {
 type ApiResponse = ApiNewsAPIData | ApiNewsAPIError;
 
 const apiNewsAPI = async (
-	query: string,
+	query?: string,
 	page?: string,
 	sortBy?: string,
 	category?: string,
@@ -26,6 +26,8 @@ const apiNewsAPI = async (
 	from?: string,
 	to?: string,
 ): Promise<ArticlesResType> => {
+	console.log("apiNewsAPI categories", category);
+	console.log("apiNewsAPI sources", sources);
 	const PAGE_SIZE = 10;
 	/* As this is a free API, it allows access to the first 100 articles only to I set this values */
 	const LAST_AVAILABLE_PAGES = 10;
@@ -35,7 +37,7 @@ const apiNewsAPI = async (
 	const params: Record<string, string> = {
 		apiKey: API_KEY,
 		pageSize: PAGE_SIZE.toString(),
-		q: query,
+		...(query && { q: query }),
 		...(page && { page }),
 		...(sortBy && { sortBy }),
 		...(sources && { sources }),
@@ -63,8 +65,8 @@ const apiNewsAPI = async (
 		pagination: {
 			currentPage: Number(page ?? 1),
 			pageSize: PAGE_SIZE,
-			totalPages: LAST_AVAILABLE_PAGES,
-			totalResults: MAX_TOTAL_PAGES,
+			totalPages: (data as ApiNewsAPIData).totalResults > 100 ? LAST_AVAILABLE_PAGES : Math.ceil((data as ApiNewsAPIData).totalResults / PAGE_SIZE),
+			totalResults: (data as ApiNewsAPIData).totalResults > 100 ? MAX_TOTAL_PAGES : (data as ApiNewsAPIData).totalResults,
 		},
 	};
 };

@@ -50,8 +50,14 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 			<h3 className="mb-5 text-lg font-bold text-teal-500">Search Filter</h3>
 			<div className="flex flex-col gap-8">
 				<div>
-					<p className="relative mb-2 uppercase text-zinc-500 after:absolute after:left-0 after:top-[50%] after:z-[0] after:h-[1px] after:w-full after:bg-teal-500 after:content-['']">
+					<p className="relative mb-2 flex items-center justify-between uppercase text-zinc-500 after:absolute after:left-0 after:top-[50%] after:z-[0] after:h-[1px] after:w-full after:bg-teal-500 after:content-['']">
 						<span className="relative z-[1] bg-gray-100 pr-2 font-medium text-gray-900">authors</span>
+						<button
+							className="relative z-[1] rounded bg-red-200 px-2 py-1 text-sm font-bold text-red-900 transition-all duration-300 hover:bg-red-500 hover:text-white"
+							onClick={() => setAuthors(() => [])}
+						>
+							clear authors
+						</button>
 					</p>
 					<div className="flex flex-col gap-4">
 						{authorsList.map((author) => (
@@ -82,8 +88,14 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 					</div>
 				</div>
 				<div>
-					<p className="relative mb-2 uppercase text-zinc-500 after:absolute after:left-0 after:top-[50%] after:z-[0] after:h-[1px] after:w-full after:bg-teal-500 after:content-['']">
+					<p className="relative mb-2 flex items-center justify-between uppercase text-zinc-500 after:absolute after:left-0 after:top-[50%] after:z-[0] after:h-[1px] after:w-full after:bg-teal-500 after:content-['']">
 						<span className="relative z-[1] bg-gray-100 pr-2 font-medium text-gray-900">Categories</span>
+						<button
+							className="relative z-[1] rounded bg-red-200 px-2 py-1 text-sm font-bold text-red-900 transition-all duration-300 hover:bg-red-500 hover:text-white"
+							onClick={() => setCategories(() => [])}
+						>
+							clear Categories
+						</button>
 					</p>
 					<div className="flex flex-col gap-4">
 						{categoryList.map((category) => (

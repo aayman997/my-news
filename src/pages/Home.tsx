@@ -72,7 +72,7 @@ const Home = () => {
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
 			} else {
-				apiNewsAPI(query, page, undefined, authors)
+				apiNewsAPI(query, page, undefined, undefined, authors)
 					.then((res) => setMyArticles(res))
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
@@ -83,6 +83,7 @@ const Home = () => {
 	if (isLoadingMostViewed || isLoadingMyFeed) {
 		return <Loader />;
 	}
+	console.log("articles", myArticles.pagination);
 
 	return (
 		<div className="my-10 flex flex-nowrap gap-16">
@@ -104,21 +105,23 @@ const Home = () => {
 					<>
 						<h2 className="mb-4 text-xl font-medium capitalize text-teal-500">👋 Welcome back, {userPref?.username}</h2>
 						<ArticlesList articles={myArticles.articles} pagination={myArticles.pagination} small={false} withPagination={false} />
-						<div className="my-8 text-right">
-							<button
-								className="rounded bg-teal-500 px-5 py-2 font-medium capitalize text-white transition-all duration-300 hover:bg-teal-700"
-								onClick={() => {
-									const data = {
-										...(userPref.data.authors.length && { authors: userPref.data.authors.join(",") }),
-										...(userPref.data.categories.length && { query: userPref.data.categories.join(",") }),
-									};
-									const params = new URLSearchParams(data);
-									navigate(`/search?${params}`);
-								}}
-							>
-								show more articles
-							</button>
-						</div>
+						{myArticles?.pagination?.totalResults > 10 && (
+							<div className="my-8 text-right">
+								<button
+									className="rounded bg-teal-500 px-5 py-2 font-medium capitalize text-white transition-all duration-300 hover:bg-teal-700"
+									onClick={() => {
+										const data = {
+											...(userPref.data.authors.length && { authors: userPref.data.authors.join(",") }),
+											...(userPref.data.categories.length && { query: userPref.data.categories.join(",") }),
+										};
+										const params = new URLSearchParams(data);
+										navigate(`/search?${params}`);
+									}}
+								>
+									show more articles
+								</button>
+							</div>
+						)}
 					</>
 				)}
 				{!userPref?.username && !errorLoadingMyFeed && <p>start customizing your feed</p>}

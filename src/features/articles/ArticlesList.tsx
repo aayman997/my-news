@@ -14,7 +14,8 @@ const ArticlesList = ({ articles, pagination, small = false, withPagination = tr
 	return (
 		<>
 			<div className="flex flex-col flex-wrap gap-[30px]">
-				{articles?.map((article) => <Article key={article.title} article={article} small={small} />)}
+				{articles?.length === 0 && <p>No articles for your current search/feed</p>}
+				{articles?.length > 0 && articles?.map((article) => <Article key={article.title} article={article} small={small} />)}
 			</div>
 			{withPagination && pagination && pagination?.totalPages > 1 && (
 				<div className="mt-8 flex items-center justify-center">

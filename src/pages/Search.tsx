@@ -29,7 +29,7 @@ const Search = () => {
 	});
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
-	const [searchError, setSearchError] = useState("");
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 	useEffect(() => {
 		const params = { ...Object.fromEntries([...searchParams]) };
@@ -52,28 +52,26 @@ const Search = () => {
 	}, [authors, searchParams, setSearchParams]);
 
 	useEffect(() => {
-		setArticles(() => ({}) as ArticlesType);
-		const query = searchParams.get("query");
-		if (!query) {
-			return setSearchError("Please type a keyword to search");
-		}
 		setIsLoadingArticles(true);
-		setErrorLoadingArticles(false);
+		const query = searchParams.get("query") ?? undefined;
+		const page = searchParams.get("page") ?? "1";
 		const categoriesString = categories.join(",");
 		const authorsString = authors.join(",");
-		const page = searchParams.get("page") ?? "1";
 		apiNewsAPI(query, page, sortBy, categoriesString, authorsString, startDate, endDate)
 			.then((res) => setArticles(res))
 			.catch(() => setErrorLoadingArticles(true))
 			.finally(() => {
 				setIsLoadingArticles(false);
 			});
+
+		return () => {
+			setErrorLoadingArticles(false);
+			setArticles(() => ({}) as ArticlesType);
+		};
 	}, [sortBy, searchParams, categories, authors, startDate, endDate]);
-	console.log("articles", articles);
 	return (
 		<>
-			<SearchHeader searchError={searchError} />
-
+			<SearchHeader />
 			<div className="flex items-start gap-10 pt-[380px]">
 				<div className="basis-1/4">
 					<SearchFilter
@@ -89,28 +87,24 @@ const Search = () => {
 				</div>
 				<div className="basis-3/4">
 					{isLoadingArticles && <Loader />}
+					<div className="mb-5 flex items-center justify-between">
+						<h3 className="text-2xl font-bold text-teal-500">Search Results</h3>
+						<div className="flex items-center justify-center gap-3">
+							<span>sort by</span>
+							<select
+								className="h-[35px] w-[135px] rounded border border-teal-300 px-2 leading-none focus:border-2 focus:border-teal-500 focus:outline-none"
+								value={sortBy}
+								onChange={(e) => setSortBy(e.target.value)}
+								disabled={articles?.articles?.length === 0 || errorLoadingArticles}
+							>
+								<option value="relevancy">relevancy</option>
+								<option value="popularity">popularity</option>
+								<option value="publishedAt">published at</option>
+							</select>
+						</div>
+					</div>
 					{errorLoadingArticles && <p>Error happened while loading data 🥲</p>}
-					{articles.articles?.length === 0 && <p className="text-center text-xl font-bold">please try another search criteria</p>}
-					{articles.articles?.length > 0 && (
-						<>
-							<div className="mb-5 flex items-center justify-between">
-								<h3 className="text-2xl font-bold text-teal-500">Search Results</h3>
-								<div className="flex items-center justify-center gap-3">
-									<span>sort by</span>
-									<select
-										className="h-[35px] w-[135px] rounded border border-teal-300 px-2 leading-none focus:border-2 focus:border-teal-500 focus:outline-none"
-										value={sortBy}
-										onChange={(e) => setSortBy(e.target.value)}
-									>
-										<option value="relevancy">relevancy</option>
-										<option value="popularity">popularity</option>
-										<option value="publishedAt">published at</option>
-									</select>
-								</div>
-							</div>
-							<ArticlesList articles={articles.articles} pagination={articles.pagination} small={false} />
-						</>
-					)}
+					<ArticlesList articles={articles.articles} pagination={articles.pagination} small={false} />
 				</div>
 			</div>
 		</>

@@ -28,7 +28,7 @@ const apiNewYorkTimes = async (
 	};
 	const searchParams = new URLSearchParams(params);
 	if (mostViewed) {
-		url = BASE_URL + "/svc/mostpopular/v2/viewed/7.json?api-key=" + API_KEY;
+		url = BASE_URL + "svc/mostpopular/v2/viewed/7.json?api-key=" + API_KEY;
 	} else {
 		url = BASE_URL + "svc/search/v2/articlesearch.json?" + searchParams;
 	}

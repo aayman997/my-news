@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { HiUserCircle } from "react-icons/hi2";
 import { categories } from "../../utils/helpers.ts";
+import SearchInput from "../SearchInput.tsx";
 
 function Logo() {
 	return (
 		<div>
 			<span className="text-xl">🗞️</span>
-			<span className="ml-2 font-bold text-gray-900">My News</span>
+			<span className="ml-2 inline-block text-2xl font-bold text-gray-200">My News</span>
 		</div>
 	);
 }
@@ -18,8 +19,11 @@ const AppNav = () => {
 				<Link to="/">
 					<Logo />
 				</Link>
-				<ul className="ml-auto flex flex-nowrap gap-8 font-medium capitalize text-teal-50">
-					{categories.map((category) => (
+				<ul className="ml-auto flex flex-nowrap items-center gap-8 font-medium capitalize text-teal-50">
+					<li className="relative w-[180px] text-gray-500">
+						<SearchInput headerSearch />
+					</li>
+					{categories.slice(0, 3).map((category) => (
 						<li key={category}>
 							<Link to={`/explore?category=${category}`}>{category}</Link>
 						</li>

@@ -9,7 +9,7 @@ interface FeedFormProps {
 type FormError = Record<string, string>;
 const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 	const [error, setError] = useState<FormError>({});
-	const [authorsDisabled, setAuthorsDisabled] = useState(false);
+	const [showAuthors, setShowAuthors] = useState(false);
 	const [userPreferences] = useState(() => {
 		const data = localStorage.getItem("userPreferences");
 		return data ? JSON.parse(data) : {};
@@ -69,7 +69,7 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 						id="sources"
 						className="h-[35px] w-[160px] rounded border border-teal-300 px-2 leading-none focus:border-2 focus:border-teal-500 focus:outline-none"
 						defaultValue={userPreferences?.data?.source}
-						onChange={(e) => (e.target.value !== "News API" ? setAuthorsDisabled(() => true) : setAuthorsDisabled(() => false))}
+						onChange={(e) => (e.target.value === "News API" ? setShowAuthors(() => true) : setShowAuthors(() => false))}
 					>
 						{sources.map((source) => (
 							<option value={source} key={source}>
@@ -94,14 +94,13 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 						</div>
 					))}
 				</div>
-				{!authorsDisabled && (
+				{(userPreferences?.data?.source === "News API" || showAuthors) && (
 					<div>
 						<p className="mb-2 text-center uppercase text-zinc-500">preferred authors</p>
 						{authors.map((author) => (
 							<div key={author} className="flex flex-row items-center justify-between gap-2">
 								<label htmlFor={author}>{author}</label>
 								<input
-									disabled={authorsDisabled}
 									defaultChecked={
 										!userPreferences?.data?.authors?.length
 											? true
