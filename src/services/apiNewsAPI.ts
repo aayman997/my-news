@@ -1,12 +1,21 @@
 import newsAPIDTO from "../dto/newsAPIDTO.ts";
 import ArticlesResType from "../types/ArticlesRes.ts";
 import ArticleType from "../types/Article.ts";
+import PaginationType from "../types/Pagination.ts";
 
 interface ApiNewsAPIData {
 	status: string;
 	totalResults: number;
 	articles: ArticleType[];
 }
+
+interface ApiNewsAPIError {
+	code: string;
+	message: string;
+	status: string;
+}
+
+type ApiResponse = ApiNewsAPIData | ApiNewsAPIError;
 
 const apiNewsAPI = async (
 	query: string,
@@ -38,12 +47,19 @@ const apiNewsAPI = async (
 	const url = BASE_URL + "everything?" + searchParams;
 
 	const res = await fetch(url);
-	const data: ApiNewsAPIData = await res.json();
+	const data: ApiResponse = await res.json();
 	if (!res.ok) {
-		throw new Error("Error Loading data");
+		const dataError = data as ApiNewsAPIError;
+		if (dataError.code === "parameterInvalid") {
+			return {
+				articles: [],
+				pagination: {} as PaginationType,
+			};
+		}
+		throw new Error((data as ApiNewsAPIError).message || "Error Loading data");
 	}
 	return {
-		articles: newsAPIDTO(data.articles),
+		articles: newsAPIDTO((data as ApiNewsAPIData).articles),
 		pagination: {
 			currentPage: Number(page ?? 1),
 			pageSize: PAGE_SIZE,

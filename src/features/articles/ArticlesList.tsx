@@ -7,17 +7,16 @@ interface ArticlesListProps {
 	articles: Partial<ArticleType>[];
 	small?: boolean;
 	pagination?: PaginationType;
+	withPagination?: boolean;
 }
 
-const ArticlesList = ({ articles, pagination, small = false }: ArticlesListProps) => {
+const ArticlesList = ({ articles, pagination, small = false, withPagination = true }: ArticlesListProps) => {
 	return (
 		<>
 			<div className="flex flex-col flex-wrap gap-[30px]">
-				{articles.map((article) => (
-					<Article key={article.title} article={article} small={small} />
-				))}
+				{articles?.map((article) => <Article key={article.title} article={article} small={small} />)}
 			</div>
-			{pagination && pagination.totalPages > 1 && (
+			{withPagination && pagination && pagination?.totalPages > 1 && (
 				<div className="mt-8 flex items-center justify-center">
 					<Pagination pagination={pagination} />
 				</div>

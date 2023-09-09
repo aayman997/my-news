@@ -18,7 +18,7 @@ const newsAPIDTO = (articles: ArticleType[]) => {
 				article.publishedAt,
 				article.url,
 				article.author,
-				typeof article.source === "object" ? article.source.name : article.source,
+				typeof article?.source === "object" ? article?.source?.name : article?.source,
 				article.urlToImage,
 			);
 		});

@@ -25,7 +25,7 @@ const newYorkTimesDTO = (articles: ArticleType[]) => {
 			article.pub_date,
 			article.web_url,
 			(article.byline as Byline).original,
-			article.source as string,
+			article?.source as string,
 			imageURL,
 		);
 	});

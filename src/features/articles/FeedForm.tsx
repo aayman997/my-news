@@ -84,7 +84,7 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 						<div key={category} className="flex flex-row items-center justify-between gap-2">
 							<label htmlFor={category}>{category}</label>
 							<input
-								defaultChecked={Boolean(userPreferences?.data?.categories?.find((stgCategory: string) => stgCategory === category))}
+								defaultChecked={Boolean(userPreferences?.data?.categories?.find?.((stgCategory: string) => stgCategory === category))}
 								type="checkbox"
 								id={category}
 								name="categories"
@@ -105,7 +105,7 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 									defaultChecked={
 										!userPreferences?.data?.authors?.length
 											? true
-											: Boolean(userPreferences?.data?.authors?.find((stgAuthor: string) => stgAuthor === author))
+											: Boolean(userPreferences?.data?.authors?.find?.((stgAuthor: string) => stgAuthor === author))
 									}
 									type="checkbox"
 									id={author}
