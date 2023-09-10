@@ -2,7 +2,7 @@ version: "3.8"
 services:
   my-news:
     build: .
-    container_name: vite_app
+    container_name: my_news
     ports:
       - '3000:3000'
     stdin_open: true

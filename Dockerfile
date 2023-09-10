@@ -3,10 +3,13 @@ FROM node:18-alpine AS build
 WORKDIR /app
 
 COPY package.json .
-RUN npm install
+COPY package-lock.json .
+
+RUN npm ci
 
 COPY . .
 
 EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "build"]
+CMD ["npm", "run", "preview"]

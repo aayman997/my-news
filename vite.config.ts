@@ -16,6 +16,11 @@ export default defineConfig(({ mode }) => {
 			strictPort: true,
 			port: 3000,
 		},
+		preview: {
+			port: 3000,
+			host: true,
+			strictPort: true,
+		},
 		define: {
 			__APP_ENV__: JSON.stringify(env.APP_ENV),
 		},
