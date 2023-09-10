@@ -28,7 +28,7 @@ const apiSignup = async ({ username, email, password }: ApiSignupParamsType): Pr
 			message: "unauthorized",
 		} as ApiSignupRes;
 	}
-	const data = {
+	return {
 		code: 201,
 		message: "user created successfully",
 		token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
@@ -37,7 +37,5 @@ const apiSignup = async ({ username, email, password }: ApiSignupParamsType): Pr
 			email,
 		},
 	};
-	localStorage.setItem("user", JSON.stringify({ token: data.token, user: data.user }));
-	return data;
 };
 export default apiSignup;

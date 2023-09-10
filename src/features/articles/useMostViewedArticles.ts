@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import getMostViewedArticles from "../../services/apiNewYorkTimes.ts";
+import getMostViewedArticles from "../../services/articles/apiNewYorkTimes.ts";
 
 export const useMostViewedArticles = () => {
 	const {

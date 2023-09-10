@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import SearchHeader from "../ui/SearchHeader.tsx";
 import { useEffect, useState } from "react";
-import apiNewsAPI from "../services/apiNewsAPI.ts";
+import apiNewsAPI from "../services/articles/apiNewsAPI.ts";
 import ArticlesList from "../features/articles/ArticlesList.tsx";
 import PaginationType from "../types/Pagination.ts";
 import ArticleType from "../types/Article.ts";
@@ -57,7 +57,16 @@ const Search = () => {
 		const page = searchParams.get("page") ?? "1";
 		const categoriesString = categories.join(",");
 		const authorsString = authors.join(",");
-		apiNewsAPI(query, page, sortBy, authorsString, startDate, endDate, categoriesString)
+		const paramsObject = {
+			q: query,
+			page,
+			sortBy,
+			sources: authorsString,
+			from: startDate,
+			to: endDate,
+			category: categoriesString,
+		};
+		apiNewsAPI(paramsObject)
 			.then((res) => setArticles(res))
 			.catch(() => setErrorLoadingArticles(true))
 			.finally(() => {

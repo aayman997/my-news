@@ -1,6 +1,6 @@
-import newYorkTimesDTO from "../dto/newYorkTimesDTO.ts";
-import newYorkTimesMostViewedDTO from "../dto/newYorkTimesMostViewedDTO.ts";
-import ArticlesResType from "../types/ArticlesRes.ts";
+import newYorkTimesDTO from "../../dto/newYorkTimesDTO.ts";
+import newYorkTimesMostViewedDTO from "../../dto/newYorkTimesMostViewedDTO.ts";
+import ArticlesResType from "../../types/ArticlesRes.ts";
 
 interface ArticlesRes extends Partial<ArticlesResType> {
 	orderBy?: string;

@@ -1,5 +1,5 @@
-import theGuardianDTO from "../dto/theGuardianDTO.ts";
-import ArticlesResType from "../types/ArticlesRes.ts";
+import theGuardianDTO from "../../dto/theGuardianDTO.ts";
+import ArticlesResType from "../../types/ArticlesRes.ts";
 
 interface ArticlesRes extends ArticlesResType {
 	orderBy?: string;

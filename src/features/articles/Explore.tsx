@@ -1,5 +1,5 @@
 import { useLoaderData, useLocation, LoaderFunction } from "react-router-dom";
-import apiNewsAPI from "../../services/apiNewsAPI.ts";
+import apiNewsAPI from "../../services/articles/apiNewsAPI.ts";
 import ArticlesList from "./ArticlesList.tsx";
 import ArticlesResType from "../../types/ArticlesRes.ts";
 import NotFoundPage from "../../ui/NotFoundPage.tsx";
@@ -22,6 +22,9 @@ const Explore = () => {
 };
 
 export const loader: LoaderFunction = async ({ params }): Promise<ArticlesResType> => {
-	return await apiNewsAPI(undefined, undefined, undefined, undefined, undefined, undefined, params.category);
+	const paramsObject = {
+		category: params.category,
+	};
+	return await apiNewsAPI(paramsObject);
 };
 export default Explore;

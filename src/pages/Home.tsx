@@ -4,12 +4,13 @@ import Loader from "../ui/Loader.tsx";
 import Modal from "../ui/Modal.tsx";
 import FeedForm from "../features/articles/FeedForm.tsx";
 import { useEffect, useState } from "react";
-import apiTheGuardian from "../services/apiTheGuardian.ts";
-import apiNewYorkTimes from "../services/apiNewYorkTimes.ts";
-import apiNewsAPI from "../services/apiNewsAPI.ts";
+import apiTheGuardian from "../services/articles/apiTheGuardian.ts";
+import apiNewYorkTimes from "../services/articles/apiNewYorkTimes.ts";
+import apiNewsAPI from "../services/articles/apiNewsAPI.ts";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import ArticleType from "../types/Article.ts";
 import PaginationType from "../types/Pagination.ts";
+import { useAuth } from "../context/AuthContext.tsx";
 
 interface ArticlesType {
 	articles: Partial<ArticleType>[];
@@ -26,6 +27,7 @@ interface UserPrefType {
 }
 
 const Home = () => {
+	const { user } = useAuth();
 	const { articles: mostViewedArticles, error: errorLoadingMostViewed, isLoading: isLoadingMostViewed } = useMostViewedArticles();
 	const [myArticles, setMyArticles] = useState<ArticlesType>({} as ArticlesType);
 	const [isLoadingMyFeed, setIsLoadingMyFeed] = useState<boolean>(false);
@@ -64,7 +66,12 @@ const Home = () => {
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
 			} else {
-				apiNewsAPI(query, page, undefined, authors)
+				const paramsObject = {
+					q: query,
+					page,
+					sources: authors,
+				};
+				apiNewsAPI(paramsObject)
 					.then((res) => setMyArticles(res))
 					.catch(() => setErrorLoadingMyFeed(true))
 					.finally(() => setIsLoadingMyFeed(false));
@@ -92,9 +99,9 @@ const Home = () => {
 						</Modal.Window>
 					</Modal>
 				</div>
-				{userPref?.username && !errorLoadingMyFeed && (
+				{user?.user?.username && !errorLoadingMyFeed && (
 					<>
-						<h2 className="mb-4 text-xl font-medium capitalize text-teal-500">👋 Welcome back, {userPref?.username}</h2>
+						<h2 className="mb-4 text-xl font-medium capitalize text-teal-500">👋 Welcome back, {user?.user?.username}</h2>
 						<ArticlesList articles={myArticles.articles} pagination={myArticles.pagination} small={false} withPagination={false} />
 						{myArticles?.pagination?.totalResults > 10 && (
 							<div className="my-8 text-right">
@@ -115,7 +122,7 @@ const Home = () => {
 						)}
 					</>
 				)}
-				{!userPref?.username && !errorLoadingMyFeed && <p>start customizing your feed</p>}
+				{!user?.user?.username && !errorLoadingMyFeed && <p>start customizing your feed</p>}
 				{errorLoadingMyFeed && <p>Error happened while loading data 🥲</p>}
 			</div>
 			<aside className="basis-1/4">

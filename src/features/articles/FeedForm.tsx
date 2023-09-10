@@ -1,5 +1,6 @@
 import { authors, categories, sources } from "../../utils/helpers.ts";
 import React, { useState, Dispatch, SetStateAction } from "react";
+import { useAuth } from "../../context/AuthContext.tsx";
 
 interface FeedFormProps {
 	onCloseModal?: () => void;
@@ -8,6 +9,7 @@ interface FeedFormProps {
 
 type FormError = Record<string, string>;
 const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
+	const { user } = useAuth();
 	const [error, setError] = useState<FormError>({});
 	const [showAuthors, setShowAuthors] = useState(false);
 	const [userPreferences] = useState(() => {
@@ -17,6 +19,7 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 	const handler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const data = new FormData(e.target as HTMLFormElement);
+		data.set("name", user?.user?.username);
 		const username = data.get("name");
 		if (!username) {
 			return setError((prevState) => ({ ...prevState, username: "please enter your name" }));
@@ -49,14 +52,9 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 						type="text"
 						id="name"
 						name="name"
-						defaultValue={userPreferences?.username}
-						placeholder="type your name"
-						className="h-[35px] w-full rounded border border-teal-300 px-2 focus:border-2 focus:border-teal-500 focus:outline-none"
-						onChange={(e) =>
-							e.target.value
-								? setError((prevState) => ({ ...prevState, username: "" }))
-								: setError((prevState) => ({ ...prevState, username: "please enter your name" }))
-						}
+						value={user?.user?.username}
+						disabled
+						className="h-[35px] w-full rounded border border-teal-300 px-2 focus:border-2 focus:border-teal-500 focus:outline-none disabled:cursor-not-allowed disabled:select-none disabled:border-none disabled:bg-gray-100"
 					/>
 					{error?.username && <span className="text-xs text-red-500">{error?.username}</span>}
 				</div>
