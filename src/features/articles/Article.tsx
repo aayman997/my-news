@@ -16,7 +16,7 @@ const Article = ({ article, small, aside }: ArticleProps) => {
 				small
 					? "shrink-0 grow basis-1/2 flex-wrap md:max-w-[360px] md:grow md:basis-[47%] lg:max-w-full [&]:flex-col"
 					: "flex-col md:w-[100%] md:max-w-[100%] md:flex-row"
-			} ${aside ? "lg:basis-full" : "md:basis-[calc((100%-30px)/2)] lg:grow lg:basis-[calc(100%/5)]"}`}
+			} ${aside ? "lg:basis-full" : "items-stretch md:basis-[calc((100%-30px)/2)] lg:grow lg:basis-[calc(100%/5)]"}`}
 		>
 			<div className="aspect-video h-[170px] shrink-0 grow-0">
 				<img src={image} alt="" className="h-full w-full object-cover" />

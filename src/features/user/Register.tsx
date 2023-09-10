@@ -13,7 +13,7 @@ interface CreateUserType {
 }
 
 const Register = () => {
-	const { login, user, locationHistory } = useAuth();
+	const { login, user } = useAuth();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [passwordHidden, setPasswordHidden] = useState<boolean>(true);
@@ -36,13 +36,11 @@ const Register = () => {
 			.catch(() => setLoginError(true))
 			.finally(() => setIsLoading(false));
 	};
-
 	useEffect(() => {
 		if (Object.entries(user).length > 0 && location.pathname.includes("register")) {
-			navigate(locationHistory, { replace: true });
+			navigate("/", { replace: true });
 		}
-	}, [location, locationHistory, navigate, user]);
-
+	}, [location.pathname, navigate, user]);
 	return (
 		<div className="flex h-full items-center justify-center">
 			{isLoading && <Loader />}
