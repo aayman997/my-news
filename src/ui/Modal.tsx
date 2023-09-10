@@ -52,7 +52,7 @@ const Window = ({ children, name }: ModalWindowPropsType) => {
 	}
 
 	return createPortal(
-		<div className="bg-[rgba(255, 255, 255, 0.1)] fixed inset-0 z-10 h-[100dvh] w-full backdrop-blur-md transition-all duration-300">
+		<div className="bg-[rgba(255, 255, 255, 0.1)] fixed inset-0 z-30 h-[100dvh] w-full backdrop-blur-md transition-all duration-300">
 			<div
 				ref={ref}
 				className="px-13 fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[9px] bg-[#fff] py-[1.5rem] transition-all duration-300"

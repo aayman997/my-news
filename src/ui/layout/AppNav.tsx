@@ -28,7 +28,7 @@ const AppNav = () => {
 				</div>
 				{showMenu && <div className="fixed inset-0 z-10 h-full w-full backdrop-blur" onClick={() => setShowMenu(false)} />}
 				<div
-					className={`z-1 fixed bottom-0 left-0 top-0 flex w-1/2 -translate-x-full flex-col flex-nowrap items-start gap-4 bg-teal-500 p-8 drop-shadow-2xl transition-transform duration-300 md:static md:flex md:w-auto md:flex-row md:items-center md:bg-transparent md:p-0 md:drop-shadow-none md:transition-none md:duration-0 xl:gap-8 ${
+					className={`fixed bottom-0 left-0 top-0 z-[11] flex w-1/2 -translate-x-full flex-col flex-nowrap items-start gap-4 bg-teal-500 p-8 drop-shadow-2xl transition-transform duration-300 md:static md:flex md:w-auto md:flex-row md:items-center md:bg-transparent md:p-0 md:drop-shadow-none md:transition-none md:duration-0 xl:gap-8 ${
 						showMenu ? "translate-x-0 " : "md:translate-x-0"
 					} `}
 				>

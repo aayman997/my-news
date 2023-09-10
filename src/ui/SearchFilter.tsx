@@ -146,7 +146,7 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 									onChange={(e) => handleStartDate(e)}
 									defaultValue={startDate ? new Date(startDate).toISOString().split("T")[0] : undefined}
 								/>
-								<span className="lg:none absolute right-2 top-1/2 -translate-y-1/2 select-none">
+								<span className="absolute right-2 top-1/2 -translate-y-1/2 select-none lg:hidden">
 									<HiOutlineClock />
 								</span>
 							</div>
@@ -165,7 +165,7 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 									onChange={(e) => handleEndDate(e)}
 									defaultValue={endDate ? new Date(endDate).toISOString().split("T")[0] : undefined}
 								/>
-								<span className="lg:none absolute right-2 top-1/2 -translate-y-1/2 select-none">
+								<span className="absolute right-2 top-1/2 -translate-y-1/2 select-none lg:hidden">
 									<HiOutlineClock />
 								</span>
 							</div>

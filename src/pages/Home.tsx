@@ -33,6 +33,7 @@ const Home = () => {
 	const [isLoadingMyFeed, setIsLoadingMyFeed] = useState<boolean>(false);
 	const [errorLoadingMyFeed, setErrorLoadingMyFeed] = useState<boolean>(false);
 	const [isLocaleStorageUpdated, setIsLocaleStorageUpdated] = useState(false);
+	const [mobileScreen] = useState(() => window.innerWidth < 1024);
 	const [userPref, setUserPref] = useState<UserPrefType>(() => {
 		const data = localStorage.getItem("userPreferences");
 		return data ? JSON.parse(data) : ({} as UserPrefType);
@@ -127,7 +128,7 @@ const Home = () => {
 			</div>
 			<aside className="basis-full lg:basis-1/4">
 				<h3 className="mb-4 text-xl font-bold capitalize text-teal-500">most viewed articles</h3>
-				{!errorLoadingMostViewed && <ArticlesList articles={mostViewedArticles?.articles ?? []} small />}
+				{!errorLoadingMostViewed && <ArticlesList articles={mostViewedArticles?.articles ?? []} small aside={!mobileScreen} />}
 				{Boolean(errorLoadingMostViewed) && <p>Error happened while loading data 🥲</p>}
 			</aside>
 		</div>

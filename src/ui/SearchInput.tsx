@@ -23,14 +23,14 @@ const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 	};
 
 	return (
-		<form className="relative h-[32px] w-full rounded-full bg-teal-50 xl:h-[40px]" onSubmit={handleSearch}>
+		<form className="relative h-[32px] w-full rounded-md bg-teal-50 xl:h-[40px]" onSubmit={handleSearch}>
 			<input
-				className="absolute inset-0 rounded-full bg-transparent font-normal placeholder:text-sm placeholder:capitalize placeholder:text-gray-500/50 focus:border-none focus:outline focus:outline-white"
+				className="absolute inset-0 rounded-md border-none bg-transparent font-normal placeholder:text-sm placeholder:capitalize placeholder:text-gray-500/50 focus:border-none focus:outline focus:outline-white"
 				placeholder="type keyword"
 				value={query}
 				onChange={(e) => setQuery(e.target.value)}
 			/>
-			<button className="absolute bottom-[1px] right-[2px] top-[1px] z-[1] flex aspect-square items-center justify-center rounded-r-full border-none bg-teal-100 text-xl text-teal-700 transition-all duration-300 hover:bg-teal-500 focus:outline focus:outline-teal-200">
+			<button className="absolute bottom-[1px] right-[2px] top-[1px] z-[1] flex aspect-square items-center justify-center rounded-r-lg border-none bg-teal-100 text-xl text-teal-700 transition-all duration-300 hover:bg-teal-500 focus:outline focus:outline-teal-200">
 				<HiOutlineSearch />
 			</button>
 		</form>
