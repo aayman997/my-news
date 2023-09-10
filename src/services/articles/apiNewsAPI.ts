@@ -26,13 +26,6 @@ const apiNewsAPI = async (paramsData: ApiNewsAPIParamsType): Promise<ArticlesRes
 	const BASE_URL = import.meta.env.VITE_NEWSAPI_URL;
 	const API_KEY = import.meta.env.VITE_NEWSAPI_API_KEY;
 
-	const newObj = {
-		apiKey: API_KEY,
-		pageSize: PAGE_SIZE.toString(),
-		...paramsData,
-	};
-	console.log("newObj", newObj);
-
 	const params: Record<string, string> = {
 		apiKey: API_KEY,
 		pageSize: PAGE_SIZE.toString(),
