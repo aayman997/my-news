@@ -30,7 +30,7 @@ const SearchInput = ({ headerSearch = false }: { headerSearch?: boolean }) => {
 				value={query}
 				onChange={(e) => setQuery(e.target.value)}
 			/>
-			<button className="absolute bottom-[1px] right-[2px] top-[1px] z-[1] flex aspect-square items-center justify-center rounded-r-lg border-none bg-teal-100 text-xl text-teal-700 transition-all duration-300 hover:bg-teal-500 focus:outline focus:outline-teal-200">
+			<button className="absolute bottom-0 right-0 top-0 z-[1] flex aspect-square items-center justify-center rounded-r-md border-none bg-teal-100 text-xl text-teal-700 transition-all duration-300 hover:bg-teal-500 hover:text-white hover:shadow-md focus:outline focus:outline-teal-200">
 				<HiOutlineSearch />
 			</button>
 		</form>
