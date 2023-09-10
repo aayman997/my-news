@@ -1,27 +1,23 @@
 import ArticleType from "../types/Article.ts";
 
 export class Article implements Partial<ArticleType> {
-	id: string;
-	title: string;
-	abstract: string;
-	date: string;
-	image: string;
-	url: string;
-	author: string;
-	source: string;
+	id: ArticleType["id"];
+	title: ArticleType["title"];
+	abstract: ArticleType["abstract"];
+	date: ArticleType["date"];
+	image: ArticleType["image"];
+	url: ArticleType["url"];
+	author: ArticleType["author"];
+	source: ArticleType["source"];
 
-	constructor(id: string, title: string, abstract: string, date: string, url: string, author: string, source: string, image?: undefined | string) {
-		this.id = id;
-		this.title = title;
-		this.abstract = abstract;
-		this.date = date;
-		this.url = url;
-		this.author = author;
-		this.source = source;
-		if (image) {
-			this.image = image;
-		} else {
-			this.image = "https://placehold.co/600x400";
-		}
+	constructor(article: Article) {
+		this.id = article.id;
+		this.title = article.title;
+		this.abstract = article.abstract;
+		this.date = article.date;
+		this.url = article.url;
+		this.author = article.author;
+		this.source = article.source;
+		this.image = article.image || "https://placehold.co/600x400";
 	}
 }

@@ -7,7 +7,7 @@ const newYorkTimesDTO = (articles: ArticleType[]) => {
 		return [];
 	}
 	return articles.map((article) => {
-		let imageURL: string | undefined;
+		let imageURL: string;
 		if (article?.multimedia?.length) {
 			imageURL =
 				NEW_YORK_TIMES_BASE_URL +
@@ -16,18 +16,18 @@ const newYorkTimesDTO = (articles: ArticleType[]) => {
 					.filter((art) => art.width < 400)
 					.sort((a, b) => b.width - a.width)[0].url;
 		} else {
-			imageURL = undefined;
+			imageURL = "";
 		}
-		return new Article(
-			article._id,
-			article.headline.main,
-			article.abstract,
-			article.pub_date,
-			article.web_url,
-			(article.byline as Byline).original,
-			article?.source as string,
-			imageURL,
-		);
+		return new Article({
+			id: article._id,
+			title: article.headline.main,
+			abstract: article.abstract,
+			date: article.pub_date,
+			url: article.web_url,
+			author: (article.byline as Byline).original,
+			source: article?.source as string,
+			image: imageURL,
+		});
 	});
 };
 

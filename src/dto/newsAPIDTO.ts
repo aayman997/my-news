@@ -11,16 +11,16 @@ const newsAPIDTO = (articles: ArticleType[]) => {
 			const curTimeStamp = Date.now();
 			const timestamp = new Date(article.publishedAt).getTime();
 			const id = curTimeStamp + timestamp;
-			return new Article(
-				id.toString(),
-				article.title,
-				article.description,
-				article.publishedAt,
-				article.url,
-				article.author,
-				typeof article?.source === "object" ? article?.source?.name : article?.source,
-				article.urlToImage,
-			);
+			return new Article({
+				id: id.toString(),
+				title: article.title,
+				abstract: article.description,
+				date: article.publishedAt,
+				url: article.url,
+				author: article.author,
+				source: typeof article?.source === "object" ? article?.source?.name : article?.source,
+				image: article.urlToImage,
+			});
 		});
 };
 

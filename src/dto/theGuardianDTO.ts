@@ -9,16 +9,16 @@ const theGuardianDTO = (articles: ArticleType[]) => {
 		const curTimeStamp = Date.now();
 		const timestamp = new Date(article.webPublicationDate).getTime();
 		const id = curTimeStamp + timestamp;
-		return new Article(
-			id.toString(),
-			article.webTitle,
-			article.fields.body.replace(/<\/?[^>]+(>|$)/g, ""),
-			article.webPublicationDate,
-			article.webUrl,
-			article.fields.byline,
-			"theguardian.com",
-			article.fields.thumbnail,
-		);
+		return new Article({
+			id: id.toString(),
+			title: article.webTitle,
+			abstract: article.fields.body.replace(/<\/?[^>]+(>|$)/g, ""),
+			date: article.webPublicationDate,
+			url: article.webUrl,
+			author: article.fields.byline,
+			source: "theguardian.com",
+			image: article.fields.thumbnail,
+		});
 	});
 };
 
