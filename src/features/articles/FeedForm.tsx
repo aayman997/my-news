@@ -1,5 +1,5 @@
 import { authors, categories, sources } from "../../utils/helpers.ts";
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext.tsx";
 
 interface FeedFormProps {
@@ -16,6 +16,13 @@ const FeedForm = ({ onCloseModal, setUpdateLocalStg }: FeedFormProps) => {
 		const data = localStorage.getItem("userPreferences");
 		return data ? JSON.parse(data) : {};
 	});
+
+	useEffect(() => {
+		if (userPreferences?.data?.source === "News API") {
+			setShowAuthors(true);
+		}
+	}, [userPreferences?.data?.source]);
+
 	const handler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const data = new FormData(e.target as HTMLFormElement);
