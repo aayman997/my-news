@@ -18,14 +18,16 @@ const AppNav = () => {
 				<Link to="/">
 					<Logo />
 				</Link>
-				<div>
-					<button
-						className="aspect-square rounded border border-teal-50 p-1 text-2xl text-teal-50 md:hidden"
-						onClick={() => setShowMenu((cur) => !cur)}
-					>
-						<HiBars3 />
-					</button>
-				</div>
+				{!notAuthorized && (
+					<div>
+						<button
+							className="aspect-square rounded border border-teal-50 p-1 text-2xl text-teal-50 md:hidden"
+							onClick={() => setShowMenu((cur) => !cur)}
+						>
+							<HiBars3 />
+						</button>
+					</div>
+				)}
 				{showMenu && <div className="fixed inset-0 z-10 h-full w-full backdrop-blur" onClick={() => setShowMenu(false)} />}
 				<div
 					className={`fixed bottom-0 left-0 top-0 z-[11] flex w-1/2 -translate-x-full flex-col flex-nowrap items-start gap-4 bg-teal-500 p-8 drop-shadow-2xl transition-transform duration-300 md:static md:flex md:w-auto md:flex-row md:items-center md:bg-transparent md:p-0 md:drop-shadow-none md:transition-none md:duration-0 xl:gap-8 ${
