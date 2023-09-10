@@ -1,8 +1,8 @@
 const Logo = () => {
 	return (
-		<div>
+		<div className="flex min-w-[105px] flex-nowrap">
 			<span className="text-xl">🗞️</span>
-			<span className="ml-2 inline-block text-2xl font-bold text-gray-200">My News</span>
+			<span className="ml-2 inline-block font-bold text-gray-200 lg:text-2xl">My News</span>
 		</div>
 	);
 };

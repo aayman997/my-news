@@ -57,7 +57,7 @@ const Window = ({ children, name }: ModalWindowPropsType) => {
 				ref={ref}
 				className="px-13 fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[9px] bg-[#fff] py-[1.5rem] transition-all duration-300"
 			>
-				<button className="absolute right-8 top-5 translate-x-3 rounded-md border-none bg-none p-2 transition-all duration-300" onClick={close}>
+				<button className="absolute right-8 top-5 translate-x-3 rounded-md border-none bg-transparent p-2 transition-all duration-300" onClick={close}>
 					<HiXMark />
 				</button>
 				<div>{cloneElement(children as ReactElement, { onCloseModal: close })}</div>

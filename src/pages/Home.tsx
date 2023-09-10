@@ -84,13 +84,13 @@ const Home = () => {
 	}
 
 	return (
-		<div className="my-10 flex flex-nowrap gap-16">
-			<div className="basis-3/4">
+		<div className="my-10 flex flex-wrap gap-8 lg:flex-nowrap lg:gap-6 xl:gap-16">
+			<div className="basis-full lg:basis-3/4">
 				<div className="mb-5 flex flex-nowrap items-center justify-between">
-					<h1 className="mb-4 text-3xl font-bold capitalize text-teal-500">my feed</h1>
+					<h1 className="mr-auto font-bold capitalize text-teal-500">my feed</h1>
 					<Modal>
 						<Modal.Open opens="create">
-							<button className="rounded bg-teal-400 px-5 py-3 font-bold uppercase text-teal-50 shadow-lg transition-all duration-300 hover:shadow-2xl">
+							<button className="rounded bg-teal-400 px-3 py-1 font-medium uppercase text-teal-50 shadow-lg transition-all duration-300 hover:shadow-2xl md:font-bold lg:px-5 lg:py-3">
 								feed customization
 							</button>
 						</Modal.Open>
@@ -104,7 +104,7 @@ const Home = () => {
 						<h2 className="mb-4 text-xl font-medium capitalize text-teal-500">👋 Welcome back, {user?.user?.username}</h2>
 						<ArticlesList articles={myArticles.articles} pagination={myArticles.pagination} small={false} withPagination={false} />
 						{myArticles?.pagination?.totalResults > 10 && (
-							<div className="my-8 text-right">
+							<div className="mt-8 text-right">
 								<button
 									className="rounded bg-teal-500 px-5 py-2 font-medium capitalize text-white transition-all duration-300 hover:bg-teal-700"
 									onClick={() => {
@@ -125,7 +125,7 @@ const Home = () => {
 				{!user?.user?.username && !errorLoadingMyFeed && <p>start customizing your feed</p>}
 				{errorLoadingMyFeed && <p>Error happened while loading data 🥲</p>}
 			</div>
-			<aside className="basis-1/4">
+			<aside className="basis-full lg:basis-1/4">
 				<h3 className="mb-4 text-xl font-bold capitalize text-teal-500">most viewed articles</h3>
 				{!errorLoadingMostViewed && <ArticlesList articles={mostViewedArticles?.articles ?? []} small />}
 				{Boolean(errorLoadingMostViewed) && <p>Error happened while loading data 🥲</p>}

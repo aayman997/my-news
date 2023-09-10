@@ -1,10 +1,13 @@
-import { createContext, useState, useContext, ReactNode, useCallback, useMemo, useEffect } from "react";
+import { createContext, useState, useContext, ReactNode, useCallback, useMemo, useEffect, Dispatch, SetStateAction } from "react";
 import apiSignup from "../services/user/apiSignup.ts";
 import apiCheckAuth from "../services/user/apiCheckAuth.ts";
 
 interface AuthContextType {
 	login: ({ username, email, password }: { username: string; email: string; password: string }) => Promise<ApiSignupRes>;
 	logout: () => Promise<void>;
+	setLocationHistory: Dispatch<SetStateAction<string>>;
+	locationHistory: string;
+
 	user: {
 		token: string;
 		user: {
@@ -35,6 +38,7 @@ interface ApiSignupRes {
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState<UserType>({} as UserType);
+	const [locationHistory, setLocationHistory] = useState<string>("");
 
 	const logout = useCallback(async () => {
 		localStorage.removeItem("user");
@@ -82,8 +86,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 			user,
 			login,
 			logout,
+			setLocationHistory,
+			locationHistory,
 		};
-	}, [login, logout, user]);
+	}, [locationHistory, login, logout, user]);
 
 	useEffect(() => {
 		checkUser();

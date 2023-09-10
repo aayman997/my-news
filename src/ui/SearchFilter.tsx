@@ -1,5 +1,7 @@
 import { authors as authorsList, categories as categoryList } from "../utils/helpers.ts";
 import React, { useState, Dispatch, SetStateAction } from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import { HiOutlineClock } from "react-icons/hi2";
 
 type FormError = Record<string, string | undefined>;
 
@@ -8,13 +10,14 @@ interface SearchFilterProps {
 	setAuthors: Dispatch<SetStateAction<string[]>>;
 	setStartDate: Dispatch<SetStateAction<string>>;
 	setEndDate: Dispatch<SetStateAction<string>>;
+	setShowFilter: Dispatch<SetStateAction<boolean>>;
 	endDate: string;
 	startDate: string;
 	categories: string[];
 	authors: string[];
 }
 
-const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, endDate, startDate, categories, authors }: SearchFilterProps) => {
+const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, endDate, startDate, categories, authors, setShowFilter }: SearchFilterProps) => {
 	const [formError, setFormError] = useState<FormError>({});
 
 	const handleStartDate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +31,7 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 			return setFormError((cur) => ({ ...cur, startDate: "start date cannot be after end date" }));
 		}
 		setStartDate(selectedDate);
+		setShowFilter(false);
 	};
 
 	const handleEndDate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,21 +47,24 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 		// End of the selected date
 		const modifiedDate = new Date(selectedDate.setHours(23, 59, 59, 999));
 		setEndDate(modifiedDate.toISOString());
+		setShowFilter(false);
 	};
 
 	return (
 		<>
-			<h3 className="mb-5 text-lg font-bold text-teal-500">Search Filter</h3>
+			<div className="flex items-center justify-between">
+				<h3 className="mb-5 text-lg font-bold text-teal-500">Search Filter</h3>
+				<button
+					className="aspect-square rounded bg-red-200 px-2 py-1 text-xl font-bold text-red-900 transition-all duration-300 hover:bg-red-500 hover:text-white lg:hidden"
+					onClick={() => setShowFilter(false)}
+				>
+					<AiOutlineClose />
+				</button>
+			</div>
 			<div className="flex flex-col gap-8">
 				<div>
 					<p className="relative mb-2 flex items-center justify-between uppercase text-zinc-500 after:absolute after:left-0 after:top-[50%] after:z-[0] after:h-[1px] after:w-full after:bg-teal-500 after:content-['']">
 						<span className="relative z-[1] bg-gray-100 pr-2 font-medium text-gray-900">authors</span>
-						<button
-							className="relative z-[1] rounded bg-red-200 px-2 py-1 text-sm font-bold text-red-900 transition-all duration-300 hover:bg-red-500 hover:text-white"
-							onClick={() => setAuthors(() => [])}
-						>
-							clear authors
-						</button>
 					</p>
 					<div className="flex flex-col gap-4">
 						{authorsList.map((author) => (
@@ -81,6 +88,7 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 											}
 											return updated;
 										});
+										setShowFilter(false);
 									}}
 								/>
 							</div>
@@ -90,12 +98,6 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 				<div>
 					<p className="relative mb-2 flex items-center justify-between uppercase text-zinc-500 after:absolute after:left-0 after:top-[50%] after:z-[0] after:h-[1px] after:w-full after:bg-teal-500 after:content-['']">
 						<span className="relative z-[1] bg-gray-100 pr-2 font-medium text-gray-900">Categories</span>
-						<button
-							className="relative z-[1] rounded bg-red-200 px-2 py-1 text-sm font-bold text-red-900 transition-all duration-300 hover:bg-red-500 hover:text-white"
-							onClick={() => setCategories(() => [])}
-						>
-							clear Categories
-						</button>
 					</p>
 					<div className="flex flex-col gap-4">
 						{categoryList.map((category) => (
@@ -119,6 +121,7 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 											}
 											return updated;
 										});
+										setShowFilter(false);
 									}}
 								/>
 							</div>
@@ -134,28 +137,38 @@ const SearchFilter = ({ setCategories, setAuthors, setStartDate, setEndDate, end
 							<label className="mb-2 inline-block text-sm font-medium" htmlFor="startDate">
 								start date
 							</label>
-							<input
-								type="date"
-								name="start-date"
-								id="startDate"
-								className="w-full rounded border-none bg-teal-50 shadow-md"
-								onChange={(e) => handleStartDate(e)}
-								defaultValue={startDate ? new Date(startDate).toISOString().split("T")[0] : undefined}
-							/>
+							<div className="relative h-[35px] w-[150px]">
+								<input
+									type="date"
+									name="start-date"
+									id="startDate"
+									className="block h-[35px] rounded border-none bg-teal-50 shadow-md"
+									onChange={(e) => handleStartDate(e)}
+									defaultValue={startDate ? new Date(startDate).toISOString().split("T")[0] : undefined}
+								/>
+								<span className="lg:none absolute right-2 top-1/2 -translate-y-1/2 select-none">
+									<HiOutlineClock />
+								</span>
+							</div>
 							{formError?.startDate && <span className="text-xs text-red-500">{formError?.startDate}</span>}
 						</div>
 						<div className="basis-1/2">
 							<label className="mb-2 inline-block text-sm font-medium" htmlFor="endDate">
 								end date
 							</label>
-							<input
-								type="date"
-								name="end-date"
-								id="endDate"
-								className="w-full rounded border-none bg-teal-50 shadow-md"
-								onChange={(e) => handleEndDate(e)}
-								defaultValue={endDate ? new Date(endDate).toISOString().split("T")[0] : undefined}
-							/>
+							<div className="relative h-[35px] w-[150px]">
+								<input
+									type="date"
+									name="end-date"
+									id="endDate"
+									className="absolute inset-0 block h-[35px] rounded border-none bg-teal-50 shadow-md"
+									onChange={(e) => handleEndDate(e)}
+									defaultValue={endDate ? new Date(endDate).toISOString().split("T")[0] : undefined}
+								/>
+								<span className="lg:none absolute right-2 top-1/2 -translate-y-1/2 select-none">
+									<HiOutlineClock />
+								</span>
+							</div>
 							{formError?.endDate && <span className="text-xs text-red-500">{formError?.endDate}</span>}
 						</div>
 					</div>

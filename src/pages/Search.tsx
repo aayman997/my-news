@@ -18,6 +18,7 @@ const Search = () => {
 	const [articles, setArticles] = useState<ArticlesType>({} as ArticlesType);
 	const [errorLoadingArticles, setErrorLoadingArticles] = useState(false);
 	const [isLoadingArticles, setIsLoadingArticles] = useState(false);
+	const [showFilter, setShowFilter] = useState(false);
 	const [sortBy, setSortBy] = useState(() => {
 		return searchParams.get("sortBy") ?? "publishedAt";
 	});
@@ -29,7 +30,6 @@ const Search = () => {
 	});
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 	useEffect(() => {
 		const params = { ...Object.fromEntries([...searchParams]) };
@@ -81,8 +81,13 @@ const Search = () => {
 	return (
 		<>
 			<SearchHeader />
-			<div className="flex items-start gap-10 pt-[380px]">
-				<div className="basis-1/4">
+			<div className="flex items-start gap-10 pt-[calc(30dvh+25px)]">
+				{showFilter && <div className="fixed inset-0 z-20 h-full w-full backdrop-blur lg:z-0" onClick={() => setShowFilter(false)} />}
+				<div
+					className={`min-w-1/2 fixed bottom-0 left-0 top-0 z-20 -translate-x-full bg-gray-100 px-4 py-8 transition-transform duration-300 lg:static lg:z-0 lg:block lg:min-w-max lg:basis-1/4 lg:translate-x-0 lg:bg-transparent lg:p-0 lg:transition-none lg:duration-0 ${
+						showFilter ? "translate-x-0" : "lg:translate-x-0"
+					}`}
+				>
 					<SearchFilter
 						setCategories={setCategories}
 						setAuthors={setAuthors}
@@ -92,25 +97,34 @@ const Search = () => {
 						endDate={endDate}
 						categories={categories}
 						authors={authors}
+						setShowFilter={setShowFilter}
 					/>
 				</div>
-				<div className="basis-3/4">
+				<div className="basis-full lg:basis-3/4">
 					{isLoadingArticles && <Loader />}
-					<div className="mb-5 flex items-center justify-between">
-						<h3 className="text-2xl font-bold text-teal-500">Search Results</h3>
-						<div className="flex items-center justify-center gap-3">
-							<span>sort by</span>
-							<select
-								className="h-[35px] w-[135px] rounded border border-teal-300 px-2 leading-none focus:border-2 focus:border-teal-500 focus:outline-none"
-								value={sortBy}
-								onChange={(e) => setSortBy(e.target.value)}
-								disabled={articles?.articles?.length === 0 || errorLoadingArticles}
-							>
-								<option value="relevancy">relevancy</option>
-								<option value="popularity">popularity</option>
-								<option value="publishedAt">published at</option>
-							</select>
+					<div className="mb-5">
+						<div className=" flex items-center justify-between">
+							<h3 className="text-2xl font-bold text-teal-500">Search Results</h3>
+							<div className="flex items-center justify-center gap-3">
+								<span>sort by</span>
+								<select
+									className="h-[35px] w-[135px] rounded border border-teal-300 px-2 leading-none focus:border-2 focus:border-teal-500 focus:outline-none"
+									value={sortBy}
+									onChange={(e) => setSortBy(e.target.value)}
+									disabled={articles?.articles?.length === 0 || errorLoadingArticles}
+								>
+									<option value="relevancy">relevancy</option>
+									<option value="popularity">popularity</option>
+									<option value="publishedAt">published at</option>
+								</select>
+							</div>
 						</div>
+						<button
+							className="mt-5 block rounded border border-teal-500 px-5 py-2 font-medium leading-none text-teal-500 lg:hidden"
+							onClick={() => setShowFilter((cur) => !cur)}
+						>
+							filter results
+						</button>
 					</div>
 					{errorLoadingArticles && <p>Error happened while loading data 🥲</p>}
 					<ArticlesList articles={articles.articles} pagination={articles.pagination} small={false} />
