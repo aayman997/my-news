@@ -1,12 +1,17 @@
 version: "3.8"
 services:
   my-news:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.env
     container_name: my_news
     ports:
       - '3000:3000'
+    volumes:
+      - ./src:/app/my-news/src
     stdin_open: true
     tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     env_file:
       - '.env.development'
-      - '.env'
