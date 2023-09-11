@@ -54,7 +54,7 @@ body {
 	flex-flow       : row nowrap;
 	align-items     : center;
 	justify-content : center;
-	z-index         : 9;
+	z-index         : 9999;
 	background      : red;
 	--c             : no-repeat linear-gradient(rgba(0, 0, 0, 0.2) 0, rgba(0, 0, 0, 0.15) 0);
 	background      : var(--c) 0 50%, var(--c) 50% 50%, var(--c) 100% 50%;
