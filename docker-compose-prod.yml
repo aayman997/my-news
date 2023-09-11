@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  my-news:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: my-news-prod
+    ports:
+      - '8080:80'
+    volumes:
+      - ./src:/app/my-news/src
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ./.env
